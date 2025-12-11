@@ -38,9 +38,9 @@ button:hover { background:#0056b3; }
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyM--TrW30_wLai48bNMGk1eT8doPkwsmKKfd898CMGJzG7V5tw0BIx2gaZRfAD5kXR/exec"; // URL Web App Apps Script
+const SCRIPT_URL = "INSERISCI_QUI_LA_TUA_WEB_APP_URL"; // URL Web App Apps Script
 
-// Variabile per CSV cumulativo
+// CSV cumulativo
 let csvCumulativo = [["Timestamp","Cognome","Nome","Luogo di nascita","Data di nascita","Email","Telefono","GDPR obbl.","GDPR promozionale"]];
 
 document.getElementById("tesseramentoForm").addEventListener("submit", async function(e){
@@ -58,7 +58,7 @@ document.getElementById("tesseramentoForm").addEventListener("submit", async fun
         gdpr_promozionale: form.gdpr_promozionale.checked ? "SI" : "NO"
     };
 
-    // 1️⃣ Invia dati a Google Sheet
+    // 1️⃣ Invia dati a Google Sheet (FormData)
     const formData = new FormData();
     for (let key in dati) formData.append(key, dati[key]);
     try {
