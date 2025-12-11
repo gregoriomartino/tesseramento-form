@@ -38,9 +38,9 @@ button:hover { background:#0056b3; }
 </div>
 
 <script>
-const SCRIPT_URL = "INSERISCI_QUI_LA_TUA_WEB_APP_URL"; // URL Web App Apps Script
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyM--TrW30_wLai48bNMGk1eT8doPkwsmKKfd898CMGJzG7V5tw0BIx2gaZRfAD5kXR/exec"; // URL Web App Apps Script
 
-// Variabile per memorizzare cumulativamente tutti i dati
+// Variabile per CSV cumulativo
 let csvCumulativo = [["Timestamp","Cognome","Nome","Luogo di nascita","Data di nascita","Email","Telefono","GDPR obbl.","GDPR promozionale"]];
 
 document.getElementById("tesseramentoForm").addEventListener("submit", async function(e){
@@ -63,6 +63,7 @@ document.getElementById("tesseramentoForm").addEventListener("submit", async fun
     for (let key in dati) formData.append(key, dati[key]);
     try {
         await fetch(SCRIPT_URL, { method: "POST", body: formData });
+        console.log("Dati inviati a Google Sheet");
     } catch(err) {
         console.error("Errore invio Google Sheet", err);
     }
