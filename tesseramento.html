@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+cursor: pointer;
+font-size: 16px;
+}
+button:hover {
+background: #0056b3;
+}
+.paypal {
+margin-top: 20px;
+text-align: center;
+}
+.paypal a {
+color: #007bff;
+font-weight: bold;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Modulo di Tesseramento</h1>
+<form id="tesseramentoForm">
+<label>1. Cognome</label>
+<input type="text" name="cognome" required>
+
+
+<label>2. Nome</label>
+<input type="text" name="nome" required>
+
+
+<label>3. Luogo di nascita</label>
+<input type="text" name="luogo_nascita" required>
+
+
+<label>4. Data di nascita</label>
+<input type="date" name="data_nascita" required>
+
+
+<label>5. E-mail</label>
+<input type="email" name="email" required>
+
+
+<label>6. Inserisci il tuo numero di telefono (FACOLTATIVO)</label>
+<input type="tel" name="telefono" placeholder="Ti aggiorneremo tramite WhatsApp">
+
+
+<label>7. Consenso obbligatorio GDPR</label>
+<div class="radio-group">
+<input type="checkbox" name="gdpr_obbligatorio" required> Autorizzo il trattamento dei dati personali per le finalità indicate
+</div>
+
+
+<label>8. Consenso facoltativo per finalità promozionali</label>
+<div class="radio-group">
+<input type="checkbox" name="gdpr_promozionale"> Autorizzo il trattamento dei dati per finalità promozionali
+</div>
+
+
+<div class="paypal">
+<p>9. Vuoi versare la tua quota con PayPal? (FACOLTATIVO)</p>
+<a href="https://paypal.me/provocard" target="_blank">Clicca qui per pagare con PayPal</a>
+</div>
+
+
+<button type="submit">Invia</button>
+</form>
+</div>
+
+
+<script>
+const SCRIPT_URL = "INSERISCI_QUI_LA_TUA_WEB_APP_URL";
+
+
+document.getElementById('tesseramentoForm').addEventListener('submit', async function(e) {
+e.preventDefault();
+
+
+const dati = {
+cognome: document.querySelector('[name="cognome"]').value,
+nome: document.querySelector('[name="nome"]').value,
+luogo_nascita: document.querySelector('[name="luogo_nascita"]').value,
+data_nascita: document.querySelector('[name="data_nascita"]').value,
+email: document.querySelector('[name="email"]').value,
+telefono: document.querySelector('[name="telefono"]').value,
+gdpr_obbligatorio: document.querySelector('[name="gdpr_obbligatorio"]').checked ? "SI" : "NO",
+gdpr_promozionale: document.querySelector('[name="gdpr_promozionale"]').checked ? "SI" : "NO"
+};
+
+
+// Salva CSV localmente
+const csv = Object.keys(dati).join(",") + "\n" + Object.values(dati).join(",");
+const blob = new Blob([csv], { type: 'text/csv' });
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'tesseramento.csv';
+a.click();
+
+
+// Invia a Google Sheets
+try {
+await fetch(SCRIPT_URL, {
+method: 'POST',
+mode: 'no-cors',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify(dati)
+});
+alert('Dati inviati correttamente a Google Sheets!');
+} catch (err) {
+alert('Errore nell\'invio a Google Sheets');
+}
+});
+</script>
+</body>
+</html>
