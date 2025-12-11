@@ -4,54 +4,118 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Modulo di Tesseramento</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-body { font-family: Arial,sans-serif; background:#f4f4f4; margin:0; padding:0; }
-.container { max-width:600px; margin:40px auto; background:#fff; padding:30px; border-radius:16px; box-shadow:0 10px 20px rgba(0,0,0,0.1); }
-h1 { text-align:center; margin-bottom:20px; }
-label { display:block; margin-top:15px; font-weight:bold; }
-input { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:6px; }
-button { width:100%; padding:12px; margin-top:20px; background:#007bff; color:white; border:none; border-radius:6px; cursor:pointer; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #e2ebf0, #ffffff);
+    margin:0; padding:0;
+}
+.container {
+    max-width:600px; margin:40px auto; background:#fff; padding:30px; border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    animation: fadeIn 0.6s ease-out;
+}
+@keyframes fadeIn { from {opacity:0; transform:translateY(15px);} to {opacity:1; transform:translateY(0);} }
+h1 { text-align:center; font-size:26px; margin-bottom:20px; color:#333; }
+label { font-weight:600; display:block; margin-top:18px; color:#444; }
+input, textarea { width:100%; padding:12px; margin-top:6px; border:1px solid #ccc; border-radius:8px; font-size:15px; transition:border-color 0.3s; }
+input:focus, textarea:focus { border-color:#007bff; outline:none; }
+.checkbox-line { margin-top:10px; }
+button { width:100%; padding:14px; margin-top:30px; background:#007bff; color:white; border:none; border-radius:10px; font-size:17px; cursor:pointer; transition: background 0.3s; font-weight:600; }
 button:hover { background:#0056b3; }
-#message { text-align:center; margin-top:15px; font-weight:bold; color:green; }
+#message { text-align:center; margin-top:15px; font-weight:600; color:green; opacity:0; transition:opacity 0.5s; }
+@media (max-width:480px) { .container { margin:15px; padding:20px; } h1 { font-size:22px; } }
 </style>
 </head>
 <body>
 
 <div class="container">
 <h1>Modulo di Tesseramento</h1>
+
 <form id="tesseramentoForm">
-<label>Cognome</label><input type="text" name="cognome" required>
-<label>Nome</label><input type="text" name="nome" required>
-<label>Luogo di nascita</label><input type="text" name="luogo_nascita" required>
-<label>Data di nascita</label><input type="date" name="data_nascita" required>
-<label>Email</label><input type="email" name="email" required>
-<label>Telefono (facoltativo)</label><input type="tel" name="telefono">
-<label>Consenso GDPR obbligatorio</label>
-<input type="checkbox" name="gdpr_obbligatorio" required> Autorizzo<br>
-<label>Consenso promozionale (facoltativo)</label>
-<input type="checkbox" name="gdpr_promozionale"> Acconsento<br><br>
-<button type="submit">Invia</button>
+    <label>Cognome</label>
+    <input type="text" name="cognome" required>
+
+    <label>Nome</label>
+    <input type="text" name="nome" required>
+
+    <label>Luogo di nascita</label>
+    <input type="text" name="luogo_nascita" required>
+
+    <label>Data di nascita</label>
+    <input type="date" name="data_nascita" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Telefono (facoltativo)</label>
+    <input type="tel" name="telefono">
+
+    <label>Consenso GDPR obbligatorio</label>
+    <div class="checkbox-line">
+        <input type="checkbox" name="gdpr_obbligatorio" required> Autorizzo il trattamento dei dati
+    </div>
+
+    <label>Consenso promozionale (facoltativo)</label>
+    <div class="checkbox-line">
+        <input type="checkbox" name="gdpr_promozionale"> Acconsento alle comunicazioni promozionali
+    </div>
+
+    <button type="submit">Invia</button>
 </form>
-<div id="message"></div>
+
+<div id="message">✓ Invio riuscito!</div>
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwab0MP7eW7YtpJFaUG1F249C3Ewd0syZokayw24f4l9YffSQ4fTm8xIhPUZm4In_574A/exec"; // URL della Web App
+const SCRIPT_URL = "INSERISCI_QUI_LA_TUA_WEB_APP_URL"; // URL Web App Apps Script
 
-document.getElementById("tesseramentoForm").addEventListener("submit", function(e){
+document.getElementById("tesseramentoForm").addEventListener("submit", async function(e){
     e.preventDefault();
     const form = this;
-    const formData = new FormData(form);
 
-    fetch(SCRIPT_URL, { method: "POST", body: formData })
-        .then(res => {
-            document.getElementById("message").innerText = "✓ Invio riuscito!";
-            form.reset();
-        })
-        .catch(err => {
-            document.getElementById("message").innerText = "Errore nell'invio";
-            console.error(err);
-        });
+    // Raccolta dati
+    const dati = {
+        cognome: form.cognome.value,
+        nome: form.nome.value,
+        luogo_nascita: form.luogo_nascita.value,
+        data_nascita: form.data_nascita.value,
+        email: form.email.value,
+        telefono: form.telefono.value,
+        gdpr_obbligatorio: form.gdpr_obbligatorio.checked ? "SI" : "NO",
+        gdpr_promozionale: form.gdpr_promozionale.checked ? "SI" : "NO"
+    };
+
+    // 1️⃣ Salvataggio in Google Sheet
+    const formData = new FormData();
+    for (let key in dati) formData.append(key, dati[key]);
+
+    try {
+        await fetch(SCRIPT_URL, { method: "POST", body: formData });
+    } catch(err) {
+        console.error("Errore invio Google Sheet", err);
+    }
+
+    // 2️⃣ Salvataggio locale in CSV
+    const csvHeader = ["Timestamp","Cognome","Nome","Luogo di nascita","Data di nascita","Email","Telefono","GDPR obbl.","GDPR promozionale"];
+    const csvData = [new Date().toLocaleString(), dati.cognome, dati.nome, dati.luogo_nascita, dati.data_nascita, dati.email, dati.telefono, dati.gdpr_obbligatorio, dati.gdpr_promozionale];
+    const csvContent = csvHeader.join(",") + "\n" + csvData.join(",");
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "tesseramento.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+
+    // Mostra messaggio animato
+    const msg = document.getElementById("message");
+    msg.style.opacity = "1";
+    setTimeout(() => msg.style.opacity = "0", 3000);
+
+    // Reset form per nuovo inserimento
+    form.reset();
 });
 </script>
 
