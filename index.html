@@ -1,200 +1,132 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modulo di Tesseramento</title>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #e2ebf0, #ffffff);
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 600px;
-            margin: 40px auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 16px;
-            box-shadow: 0px 10px 25px rgba(0,0,0,0.08);
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 26px;
-            margin-bottom: 20px;
-            color: #333;
-        }
-
-        label {
-            font-weight: 600;
-            display: block;
-            margin-top: 18px;
-            color: #444;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            margin-top: 6px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: border-color 0.3s;
-        }
-
-        input:focus, textarea:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        .checkbox-line {
-            margin-top: 10px;
-        }
-
-        .paypal {
-            text-align: center;
-            margin-top: 25px;
-        }
-
-        .paypal a {
-            font-weight: 600;
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .paypal a:hover {
-            text-decoration: underline;
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            margin-top: 30px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            cursor: pointer;
-            transition: background 0.3s;
-            font-weight: 600;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-
-        /* MOBILE FIX */
-        @media (max-width: 480px) {
-            .container {
-                margin: 15px;
-                padding: 20px;
-            }
-            h1 {
-                font-size: 22px;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modulo di Tesseramento</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+    body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #e2ebf0, #ffffff);
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0px 10px 25px rgba(0,0,0,0.08);
+        animation: fadeIn 0.6s ease-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(15px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    h1 { text-align: center; font-size: 26px; margin-bottom: 20px; color: #333; }
+    label { font-weight: 600; display: block; margin-top: 18px; color: #444; }
+    input, textarea { width: 100%; padding: 12px; margin-top: 6px; border: 1px solid #ccc; border-radius: 8px; font-size: 15px; transition: border-color 0.3s; }
+    input:focus, textarea:focus { border-color: #007bff; outline: none; }
+    .checkbox-line { margin-top: 10px; }
+    .paypal { text-align: center; margin-top: 25px; }
+    .paypal a { font-weight: 600; color: #007bff; text-decoration: none; }
+    .paypal a:hover { text-decoration: underline; }
+    button { width: 100%; padding: 14px; margin-top: 30px; background: #007bff; color: white; border: none; border-radius: 10px; font-size: 17px; cursor: pointer; transition: background 0.3s; font-weight: 600; }
+    button:hover { background: #0056b3; }
+    @media (max-width: 480px) { .container { margin: 15px; padding: 20px; } h1 { font-size: 22px; } }
+</style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>Modulo di Tesseramento</h1>
 
-        <form id="tesseramentoForm">
-            
-            <label>1. Cognome</label>
-            <input type="text" name="cognome" required>
+<div class="container">
+<h1>Modulo di Tesseramento</h1>
 
-            <label>2. Nome</label>
-            <input type="text" name="nome" required>
+<form id="tesseramentoForm">
 
-            <label>3. Luogo di nascita</label>
-            <input type="text" name="luogo_nascita" required>
+    <label>1. Cognome</label>
+    <input type="text" name="cognome" required>
 
-            <label>4. Data di nascita</label>
-            <input type="date" name="data_nascita" required>
+    <label>2. Nome</label>
+    <input type="text" name="nome" required>
 
-            <label>5. E-mail</label>
-            <input type="email" name="email" required>
+    <label>3. Luogo di nascita</label>
+    <input type="text" name="luogo_nascita" required>
 
-            <label>6. Telefono (facoltativo)</label>
-            <input type="tel" name="telefono" placeholder="Riceverai aggiornamenti via WhatsApp">
+    <label>4. Data di nascita</label>
+    <input type="date" name="data_nascita" required>
 
-            <label>7. Consenso GDPR (obbligatorio)</label>
-            <div class="checkbox-line">
-                <input type="checkbox" name="gdpr_obbligatorio" required> Autorizzo il trattamento dei dati
-            </div>
+    <label>5. E-mail</label>
+    <input type="email" name="email" required>
 
-            <label>8. Consenso promozionale (facoltativo)</label>
-            <div class="checkbox-line">
-                <input type="checkbox" name="gdpr_promozionale"> Acconsento alle comunicazioni promozionali
-            </div>
+    <label>6. Telefono (facoltativo)</label>
+    <input type="tel" name="telefono" placeholder="Riceverai aggiornamenti via WhatsApp">
 
-            <div class="paypal">
-                <p>9. Paga la quota con PayPal (facoltativo)</p>
-                <a href="https://paypal.me/provocard" target="_blank">Clicca qui per pagare</a>
-            </div>
-
-            <button type="submit">Invia</button>
-        </form>
+    <label>7. Consenso GDPR (obbligatorio)</label>
+    <div class="checkbox-line">
+        <input type="checkbox" name="gdpr_obbligatorio" required> Autorizzo il trattamento dei dati
     </div>
 
-    <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxp_v46kjqdzKvVx6NxkypNyutgMvwogNxUFh9SBpL6RN2i8RnzOSXBBoChoOnnTeG2Sw/exec";
+    <label>8. Consenso promozionale (facoltativo)</label>
+    <div class="checkbox-line">
+        <input type="checkbox" name="gdpr_promozionale"> Acconsento alle comunicazioni promozionali
+    </div>
 
-        document.getElementById("tesseramentoForm").addEventListener("submit", async function(e) {
-            e.preventDefault();
+    <div class="paypal">
+        <p>9. Paga la quota con PayPal (facoltativo)</p>
+        <a href="https://paypal.me/provocard" target="_blank">Clicca qui per pagare</a>
+    </div>
 
-            const dati = {
-                cognome: document.querySelector('[name="cognome"]').value,
-                nome: document.querySelector('[name="nome"]').value,
-                luogo_nascita: document.querySelector('[name="luogo_nascita"]').value,
-                data_nascita: document.querySelector('[name="data_nascita"]').value,
-                email: document.querySelector('[name="email"]').value,
-                telefono: document.querySelector('[name="telefono"]').value,
-                gdpr_obbligatorio: document.querySelector('[name="gdpr_obbligatorio"]').checked ? "SI" : "NO",
-                gdpr_promozionale: document.querySelector('[name="gdpr_promozionale"]').checked ? "SI" : "NO"
-            };
+    <button type="submit">Invia</button>
+</form>
 
-            // Salva CSV locale
-            const csv = Object.keys(dati).join(",") + "\n" + Object.values(dati).join(",");
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'tesseramento.csv';
-            a.click();
+<div id="message" style="text-align:center;margin-top:15px;color:green;font-weight:600;"></div>
 
-            // Invia a Google Sheets
-            try {
-                await fetch(SCRIPT_URL, {
-                    method: "POST",
-                    mode: "no-cors",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(dati)
-                });
-                alert("Dati inviati correttamente!");
-            } catch (err) {
-                alert("Errore nell'invio");
-            }
+</div>
+
+<script>
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwAneoJQBOVy_24ekp3oQkwj4gsoL8iflQ8DpXcESonliyavQyVMqGv_IhTcNaLJ2YmmA/exec";
+
+document.getElementById("tesseramentoForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const dati = {
+        cognome: document.querySelector('[name="cognome"]').value,
+        nome: document.querySelector('[name="nome"]').value,
+        luogo_nascita: document.querySelector('[name="luogo_nascita"]').value,
+        data_nascita: document.querySelector('[name="data_nascita"]').value,
+        email: document.querySelector('[name="email"]').value,
+        telefono: document.querySelector('[name="telefono"]').value,
+        gdpr_obbligatorio: document.querySelector('[name="gdpr_obbligatorio"]').checked ? "SI" : "NO",
+        gdpr_promozionale: document.querySelector('[name="gdpr_promozionale"]').checked ? "SI" : "NO"
+    };
+
+    // Salva CSV locale
+    const csv = Object.keys(dati).join(",") + "\n" + Object.values(dati).join(",");
+    const blob = new Blob([csv], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'tesseramento.csv';
+    a.click();
+
+    // Invia a Google Sheets
+    try {
+        await fetch(SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {"Content-Type":"application/json"},
+            body: JSON.stringify(dati)
         });
-    </script>
+        document.getElementById("message").innerText = "Invio riuscito!";
+        this.reset();
+    } catch(err) {
+        document.getElementById("message").innerText = "Errore nell'invio";
+        console.error(err);
+    }
+});
+</script>
 
 </body>
 </html>
-
-
