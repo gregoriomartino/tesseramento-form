@@ -13,6 +13,8 @@ input { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-
 button { width:100%; padding:12px; margin-top:20px; background:#007bff; color:white; border:none; border-radius:6px; cursor:pointer; }
 button:hover { background:#0056b3; }
 #message { text-align:center; margin-top:15px; font-weight:bold; color:green; opacity:0; transition:opacity 0.5s; }
+#downloadCSV { margin-top:10px; background:#28a745; }
+#downloadCSV:hover { background:#1e7e34; }
 </style>
 </head>
 <body>
@@ -34,11 +36,12 @@ button:hover { background:#0056b3; }
 <button type="submit">Invia</button>
 </form>
 
+<button id="downloadCSV">Scarica CSV cumulativo</button>
 <div id="message">✓ Invio riuscito!</div>
 </div>
 
 <script>
-const SCRIPT_URL = "INSERISCI_QUI_LA_TUA_WEB_APP_URL"; // URL Web App Apps Script
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyzygWBdOwysheSWyVCel36PUm0I9N6cR_Ax_AAZ0usR-SXcJaN9Zj_8QPCNL8dCkZR_g/exec"; // URL Web App Apps Script
 
 // CSV cumulativo
 let csvCumulativo = [["Timestamp","Cognome","Nome","Luogo di nascita","Data di nascita","Email","Telefono","GDPR obbl.","GDPR promozionale"]];
@@ -68,7 +71,7 @@ document.getElementById("tesseramentoForm").addEventListener("submit", async fun
         console.error("Errore invio Google Sheet", err);
     }
 
-    // 2️⃣ Aggiorna CSV cumulativo
+    // 2️⃣ Aggiorna CSV cumulativo in memoria
     csvCumulativo.push([
         new Date().toLocaleString(),
         dati.cognome,
@@ -81,18 +84,6 @@ document.getElementById("tesseramentoForm").addEventListener("submit", async fun
         dati.gdpr_promozionale
     ]);
 
-    // Crea CSV cumulativo
-    const csvContent = csvCumulativo.map(row => row.join(",")).join("\n");
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-
-    // Scarica CSV cumulativo aggiornato
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "tesseramento_cumulativo.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-
     // Messaggio conferma
     const msg = document.getElementById("message");
     msg.style.opacity = "1";
@@ -100,6 +91,18 @@ document.getElementById("tesseramentoForm").addEventListener("submit", async fun
 
     // Reset form
     form.reset();
+});
+
+// 3️⃣ Scarica CSV cumulativo quando clicchi il pulsante
+document.getElementById("downloadCSV").addEventListener("click", function(){
+    const csvContent = csvCumulativo.map(row => row.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "tesseramento_cumulativo.csv";
+    a.click();
+    URL.revokeObjectURL(url);
 });
 </script>
 
