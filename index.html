@@ -5,66 +5,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Modulo di Tesseramento</title>
 <style>
-body { font-family: Arial, sans-serif; background: #f4f4f4; margin:0; padding:0; }
-.container { max-width: 600px; margin:40px auto; background:#fff; padding:30px; border-radius:16px; box-shadow:0 10px 20px rgba(0,0,0,0.1); }
-h1 { text-align:center; }
+body { font-family: Arial,sans-serif; background:#f4f4f4; margin:0; padding:0; }
+.container { max-width:600px; margin:40px auto; background:#fff; padding:30px; border-radius:16px; box-shadow:0 10px 20px rgba(0,0,0,0.1); }
+h1 { text-align:center; margin-bottom:20px; }
 label { display:block; margin-top:15px; font-weight:bold; }
 input { width:100%; padding:10px; margin-top:5px; border:1px solid #ccc; border-radius:6px; }
 button { width:100%; padding:12px; margin-top:20px; background:#007bff; color:white; border:none; border-radius:6px; cursor:pointer; }
 button:hover { background:#0056b3; }
+#message { text-align:center; margin-top:15px; font-weight:bold; color:green; }
 </style>
 </head>
 <body>
+
 <div class="container">
 <h1>Modulo di Tesseramento</h1>
-
 <form id="tesseramentoForm">
 <label>Cognome</label><input type="text" name="cognome" required>
 <label>Nome</label><input type="text" name="nome" required>
 <label>Luogo di nascita</label><input type="text" name="luogo_nascita" required>
 <label>Data di nascita</label><input type="date" name="data_nascita" required>
 <label>Email</label><input type="email" name="email" required>
-<label>Telefono (facoltativo)</label><input type="tel" name="telefono" placeholder="WhatsApp">
-<label>Consenso GDPR (obbligatorio)</label>
+<label>Telefono (facoltativo)</label><input type="tel" name="telefono">
+<label>Consenso GDPR obbligatorio</label>
 <input type="checkbox" name="gdpr_obbligatorio" required> Autorizzo<br>
 <label>Consenso promozionale (facoltativo)</label>
 <input type="checkbox" name="gdpr_promozionale"> Acconsento<br><br>
 <button type="submit">Invia</button>
 </form>
-
-<div id="message" style="text-align:center; margin-top:15px; color:green; font-weight:bold;"></div>
+<div id="message"></div>
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwXaEn40U8d_WRCP0SAGFJvcGqSeXJbGX2hPOFyaiF-ACVsW-G1pf0ohkDGODygZ9XNgQ/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwab0MP7eW7YtpJFaUG1F249C3Ewd0syZokayw24f4l9YffSQ4fTm8xIhPUZm4In_574A/exec"; // URL della Web App
 
-document.getElementById("tesseramentoForm").addEventListener("submit", async function(e){
-  e.preventDefault();
+document.getElementById("tesseramentoForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const form = this;
+    const formData = new FormData(form);
 
-  const dati = {
-    cognome: document.querySelector('[name="cognome"]').value,
-    nome: document.querySelector('[name="nome"]').value,
-    luogo_nascita: document.querySelector('[name="luogo_nascita"]').value,
-    data_nascita: document.querySelector('[name="data_nascita"]').value,
-    email: document.querySelector('[name="email"]').value,
-    telefono: document.querySelector('[name="telefono"]').value,
-    gdpr_obbligatorio: document.querySelector('[name="gdpr_obbligatorio"]').checked ? "SI" : "NO",
-    gdpr_promozionale: document.querySelector('[name="gdpr_promozionale"]').checked ? "SI" : "NO"
-  };
-
-  try {
-    const res = await fetch(SCRIPT_URL, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(dati)
-    });
-    document.getElementById("message").innerText = "✓ Invio riuscito!";
-    this.reset();
-  } catch(err) {
-    document.getElementById("message").innerText = "Errore nell'invio";
-    console.error(err);
-  }
+    fetch(SCRIPT_URL, { method: "POST", body: formData })
+        .then(res => {
+            document.getElementById("message").innerText = "✓ Invio riuscito!";
+            form.reset();
+        })
+        .catch(err => {
+            document.getElementById("message").innerText = "Errore nell'invio";
+            console.error(err);
+        });
 });
 </script>
+
 </body>
 </html>
